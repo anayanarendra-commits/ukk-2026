@@ -8,5 +8,6 @@ class Kategori extends Model
 {
     protected static ?string $table = 'kategori';
 
-    protected array $fillable = ['judul_buku','pengarang','penerbit','tahun_terbit'];
+    protected string $primaryKey='id_kategori';
+    protected array $fillable = ['nama_kategori','kode','keterangan'];
 }

@@ -12,10 +12,9 @@
     <th>
         <tr>
             <th>no</th>
-            <th>judul_buku</th>
-            <th>pengarang</th>
-            <th>penebit</th>
-            <th>tahun_terbit</th>
+            <th>nama_kategori</th>
+            <th>kode</th>
+            <th>keterangan</th>
             <th>Aksi</th>
         </tr>
     </th>
@@ -24,13 +23,14 @@
         @foreach($data as $d)
         <tr>
             <td> {{ $no++ }}</td>
-            <td> {{ $d->judul_buku }} </td>
-            <td> {{ $d->pengarang }} </td>
-            <td> {{ $d->penerbit }} </td>
-            <td> {{ $d->tahun_terbit }}</td>
-            <td>
-            <button class="btn btn-sm btn-success">Edit</button>
-            <button class="btn btn-sm btn-danger">Hapus</button>
+            <td> {{ $d->nama_kategori }} </td>
+            <td> {{ $d-> kode }} </td>
+            <td> {{ $d->keterangan }} </td>
+            <td><a href="{{ route('kategori.edit', ['id_kategori' => $d->id_kategori]) }}" class="btn btn-sm btn-success">Edit</a>
+              <form action="{{ route('kategori.destroy', ['id_kategori' => $d->id_kategori]) }}" method="POST"  class="d-inline">
+                @csrf 
+                @method('DELETE')
+                <button type="sumbit" class="btn btn-sm btn-danger">Hapus</button>
         </td>
         </tr>
         @endforeach

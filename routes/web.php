@@ -57,9 +57,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
 
     //Kategori routes 
-    Route::get('/Kategori', [KategoriController::class, 'index'])->name('kategori.index');
-    Route::get('/Kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-    Route::post('/Kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+    Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+    Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
+
+    Route::get('/kategori/edit/{id_kategori}', [App\Controllers\KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::delete('/kategori/{id_kategori}', [App\Controllers\KategoriController::class, 'destroy'])->name('kategori.destroy');
+    Route::put('/kategori/{id_kategori}', [App\Controllers\KategoriController::class, 'update'])->name('kategori.update');
     });
 
 /*
