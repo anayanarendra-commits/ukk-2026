@@ -12,9 +12,9 @@
     <th>
         <tr>
             <th>no</th>
-            <th>nama_kategori</th>
-            <th>kode</th>
-            <th>keterangan</th>
+            <th>Nama Kategori</th>
+            <th>Kode</th>
+            <th>Keterangan</th>
             <th>Aksi</th>
         </tr>
     </th>

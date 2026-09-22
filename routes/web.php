@@ -7,6 +7,7 @@ use App\Controllers\Core\DocsController;
 use App\Controllers\Core\RoleController;
 use App\Controllers\Core\UserController;
 use App\Controllers\KategoriController;
+use App\Controllers\DataBukuController;
 use Sakuci\Route;
 
 /*
@@ -64,6 +65,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/kategori/edit/{id_kategori}', [App\Controllers\KategoriController::class, 'edit'])->name('kategori.edit');
     Route::delete('/kategori/{id_kategori}', [App\Controllers\KategoriController::class, 'destroy'])->name('kategori.destroy');
     Route::put('/kategori/{id_kategori}', [App\Controllers\KategoriController::class, 'update'])->name('kategori.update');
+
+    //DataBuku routes
+    Route::get('/data_buku', [DataBukuController::class, 'index'])->name('data_buku.index');
+    Route::get('/data_buku/create', [DataBukuController::class, 'create'])->name('data_buku.create');
+    Route::post('/data_buku/store', [DataBukuController::class, 'store'])->name('data_buku.store');
+
+    Route::get('/data_buku/edit/{id_buku}', [App\Controllers\DataBukuController::class, 'edit'])->name('data_buku.edit');
+    Route::delete('/data_buku/{id_buku}', [App\Controllers\DataBukuController::class, 'destroy'])->name('data_buku.destroy');
+    Route::put('/data_buku/{id_buku}', [App\Controllers\DataBukuController::class, 'update'])->name('data_buku.update');
+    Route::get('/kategori/databuku',[DataBukuController::class, 'index'])->name('admin.kategori.databuku');
     });
 
 /*

@@ -15,7 +15,7 @@ class KategoriController extends Controller
     }
     public function create(Request $request)
     {
-        return view('Kategori.create');
+        return view('kategori.create');
     }
      public function store(Request $request)
      {
