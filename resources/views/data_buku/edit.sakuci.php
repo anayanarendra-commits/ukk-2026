@@ -9,15 +9,19 @@
      @csrf
      @method('PUT')
 
+     <div class="mb-3">
+        <label for="id_kategori" class="form-label admin-label">Kategori</label>
+        <select name="id_kategori" id="id_kategori" class="form-select" required>
+            <option value="">-- Pilih Kategori Disini --</option>
+            @foreach($daftarKategori as $kat)
+                <option value="<?= e($kat->id_kategori) ?>"><?= e($kat->nama_kategori) ?></option>
+            @endforeach
+        </select>
+     </div>
+
      <div class="form-group mb-3">
          <label for="judul_buku"> Judul Buku </label>
-         <input
-           type="text"
-           name="judul_buku"
-           id="judul_buku"
-           class="form-control"
-           value="{{ $data_buku->judul_buku}}"
-           required>
+         <input type="text" name="judul_buku" id="judul_buku" class="form-control" value="{{ $data_buku->judul_buku}}" required>
      </div>
 
      <div class="form-group mb-3">

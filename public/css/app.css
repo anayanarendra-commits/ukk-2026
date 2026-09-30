@@ -1,32 +1,155 @@
 /*
-| Lapisan tema di atas Bootstrap.
-| Bootstrap dimuat lebih dulu, file ini hanya menimpa seperlunya.
+| Tema Sakuci (pink soft) di atas Bootstrap 5.3.
+| Muat SETELAH bootstrap.css supaya override di bawah berlaku.
 */
 
-:root {
+:root,
+[data-bs-theme="light"] {
+    --brand: #D8A7B1;          /* pink soft utama */
+    --brand-dark: #B87C88;     /* hover / aksen */
+    --brand-deep: #8E5563;     /* teks pink di atas putih (kontras aman) */
+    --brand-subtle: #FFF1F4;   /* latar tipis */
+    --brand-border: rgba(216, 167, 177, .45);
+    --brand-ink: #4A2530;      /* teks di atas tombol pink */
+
+    /* Petakan ke variabel Bootstrap agar komponen bawaan ikut pink */
+    --bs-primary: #D8A7B1;
+    --bs-primary-rgb: 216, 167, 177;
+    --bs-link-color: #8E5563;
+    --bs-link-color-rgb: 142, 85, 99;
+    --bs-link-hover-color: #B87C88;
+    --bs-link-hover-color-rgb: 184, 124, 136;
+    --bs-focus-ring-color: rgba(216, 167, 177, .4);
+    --bs-body-bg: #FFFBFC;
+    --bs-border-color: #F1DDE2;
+    --bs-border-radius: .65rem;
+    --bs-border-radius-lg: 1rem;
+}
+
+[data-bs-theme="dark"] {
     --brand: #D8A7B1;
-    --brand-dark: #B87C88;
-    --brand-subtle: #FFF1F4;
+    --brand-dark: #E7BAC4;
+    --brand-deep: #F0C4CE;
+    --brand-subtle: rgba(216, 167, 177, .14);
+    --brand-border: rgba(216, 167, 177, .35);
+    --brand-ink: #3A1B25;
+
+    --bs-link-color: #F0C4CE;
+    --bs-link-color-rgb: 240, 196, 206;
+    --bs-link-hover-color: #FFDCE4;
+    --bs-link-hover-color-rgb: 255, 220, 228;
+    --bs-body-bg: #1B1518;
+    --bs-tertiary-bg: #251C20;
+    --bs-border-color: #3B2D32;
 }
 
 body {
     font-size: 15.5px;
 }
 
-/* Logo kotak di navbar */
+/* ---------- Komponen bawaan Bootstrap -> pink ---------- */
+
+.btn-primary {
+    --bs-btn-color: var(--brand-ink);
+    --bs-btn-bg: var(--brand);
+    --bs-btn-border-color: var(--brand);
+    --bs-btn-hover-color: var(--brand-ink);
+    --bs-btn-hover-bg: #E3B9C2;
+    --bs-btn-hover-border-color: #E3B9C2;
+    --bs-btn-active-color: var(--brand-ink);
+    --bs-btn-active-bg: var(--brand-dark);
+    --bs-btn-active-border-color: var(--brand-dark);
+    --bs-btn-focus-shadow-rgb: 216, 167, 177;
+    --bs-btn-disabled-bg: var(--brand);
+    --bs-btn-disabled-border-color: var(--brand);
+    --bs-btn-disabled-color: var(--brand-ink);
+    font-weight: 600;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--brand-deep);
+    --bs-btn-border-color: var(--brand);
+    --bs-btn-hover-color: var(--brand-ink);
+    --bs-btn-hover-bg: var(--brand);
+    --bs-btn-hover-border-color: var(--brand);
+    --bs-btn-active-color: var(--brand-ink);
+    --bs-btn-active-bg: var(--brand-dark);
+    --bs-btn-active-border-color: var(--brand-dark);
+    --bs-btn-focus-shadow-rgb: 216, 167, 177;
+}
+
+.text-primary { color: var(--brand-deep) !important; }
+.bg-primary { background-color: var(--brand) !important; color: var(--brand-ink) !important; }
+.border-primary { border-color: var(--brand) !important; }
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 .25rem rgba(216, 167, 177, .35);
+}
+
+.form-check-input:checked {
+    background-color: var(--brand);
+    border-color: var(--brand);
+}
+
+.form-check-input:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 .25rem rgba(216, 167, 177, .35);
+}
+
+.nav-pills .nav-link.active,
+.list-group-item.active,
+.dropdown-item.active {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: var(--brand-ink);
+}
+
+.page-link { color: var(--brand-deep); }
+.page-item.active .page-link {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: var(--brand-ink);
+}
+
+.progress-bar { background-color: var(--brand); }
+
+.card {
+    border-color: var(--brand-border);
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: 0 6px 20px rgba(184, 124, 136, .08);
+}
+
+.table > :not(caption) > * > * {
+    border-bottom-color: var(--brand-border);
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar {
+    background-color: rgba(255, 251, 252, .85) !important;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--brand-border);
+}
+
+[data-bs-theme="dark"] .navbar {
+    background-color: rgba(27, 21, 24, .85) !important;
+}
+
 .brand-mark {
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    background: var(--brand);
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #E8BCC5, var(--brand-dark));
     color: #fff;
     font-size: 15px;
     font-weight: 700;
+    box-shadow: 0 3px 8px rgba(184, 124, 136, .35);
 }
 
-/* Navbar -- link aktif vs non-aktif */
 .navbar-nav .nav-link {
     position: relative;
     font-weight: 500;
@@ -36,11 +159,11 @@ body {
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--brand);
+    color: var(--brand-dark);
 }
 
 .navbar-nav .nav-link.active {
-    color: var(--brand);
+    color: var(--brand-deep);
     font-weight: 700;
 }
 
@@ -50,14 +173,14 @@ body {
     left: .5rem;
     right: .5rem;
     bottom: 0;
-    height: 2px;
-    border-radius: 2px;
+    height: 3px;
+    border-radius: 3px;
     background: var(--brand);
 }
 
 /* Logo navbar merangkap tombol toggle tema gelap/terang. Titik tengah
-   (hijau/merah) tetap menunjukkan status koneksi database seperti biasa;
-   cincin luarnya yang berubah warna mengikuti tema aktif. */
+   (hijau/merah) tetap menunjukkan status koneksi database; cincin luarnya
+   berubah warna mengikuti tema aktif. */
 .logo-toggle {
     display: inline-flex;
     flex: 0 0 auto;
@@ -87,62 +210,77 @@ body {
     fill: #ffffff;
 }
 
-/* Tombol warna khas Sakuci */
+/* ---------- Tombol & utilitas khas Sakuci ---------- */
+
 .btn-brand {
     background-color: var(--brand);
     border-color: var(--brand);
-    color: #fff;
+    color: var(--brand-ink);
+    font-weight: 600;
 }
 
 .btn-brand:hover,
 .btn-brand:focus,
 .btn-brand:active {
-    background-color: var(--brand-dark);
-    border-color: var(--brand-dark);
-    color: #fff;
+    background-color: #E3B9C2;
+    border-color: #E3B9C2;
+    color: var(--brand-ink);
 }
 
 .btn-outline-brand {
     border-color: var(--brand);
-    color: var(--brand);
+    color: var(--brand-deep);
 }
 
 .btn-outline-brand:hover {
     background-color: var(--brand);
-    color: #fff;
+    color: var(--brand-ink);
 }
 
-.text-brand   { color: var(--brand) !important; }
+.text-brand { color: var(--brand-deep) !important; }
 .bg-brand-subtle { background-color: var(--brand-subtle) !important; }
 
 .badge-brand {
     background-color: var(--brand-subtle);
-    color: var(--brand-dark);
+    color: var(--brand-deep);
     font-weight: 600;
+    border: 1px solid var(--brand-border);
 }
 
-/* Blok kode */
+/* Kartu yang terangkat sedikit saat di-hover (opsional: tambahkan class ini) */
+.card-hover {
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(184, 124, 136, .18);
+}
+
+/* ---------- Blok kode ---------- */
+
 pre.code {
     margin: 0;
     padding: 16px;
-    border-radius: 10px;
-    background: #0f172a;
-    color: #e2e8f0;
+    border-radius: 12px;
+    background: #2B1F24;
+    color: #F6E7EB;
     font: 12.5px/1.7 ui-monospace, Consolas, "Courier New", monospace;
     overflow-x: auto;
 }
 
-pre.code .cmt { color: #64748b; }
+pre.code .cmt { color: #B49AA2; }
 
 code.inline {
     padding: 2px 6px;
-    border-radius: 5px;
-    background: #eef0f2;
-    color: #0f172a;
+    border-radius: 6px;
+    background: var(--brand-subtle);
+    color: var(--brand-deep);
     font-size: 0.875em;
 }
 
-/* Nomor langkah */
+/* ---------- Nomor langkah ---------- */
+
 .step-number {
     display: grid;
     place-items: center;
@@ -151,15 +289,17 @@ code.inline {
     height: 28px;
     border-radius: 50%;
     background: var(--brand-subtle);
-    color: var(--brand-dark);
+    color: var(--brand-deep);
+    border: 1px solid var(--brand-border);
     font-size: 13px;
     font-weight: 700;
 }
 
-/* Kotak pratinjau komponen di halaman /docs */
+/* ---------- Pratinjau komponen di /docs ---------- */
+
 .demo-preview {
-    border: 1px dashed #cbd5e1;
-    border-radius: 10px;
+    border: 1px dashed var(--brand);
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -168,36 +308,36 @@ code.inline {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .05em;
-    color: #64748b;
-    background: #f1f5f9;
+    color: var(--brand-deep);
+    background: var(--brand-subtle);
     padding: 6px 12px;
-    border-bottom: 1px dashed #cbd5e1;
+    border-bottom: 1px dashed var(--brand);
 }
 
 .demo-preview-body {
     padding: 18px;
-    background: #fff;
+    background: var(--bs-body-bg);
 }
 
-/* Kotak warna untuk contoh grid & spacing di /docs */
 .demo-box {
     padding: .6rem .5rem;
     background: var(--brand-subtle);
-    border: 1px solid #fdba8c;
-    border-radius: 6px;
-    color: var(--brand-dark);
+    border: 1px solid var(--brand-border);
+    border-radius: 8px;
+    color: var(--brand-deep);
     font-size: .8rem;
     font-weight: 600;
     text-align: center;
 }
 
 .demo-box-alt {
-    background: #eef2ff;
-    border-color: #c7d2fe;
-    color: #3730a3;
+    background: #F3EEFB;
+    border-color: #DCCFF3;
+    color: #5B3F8C;
 }
 
-/* Halaman error */
+/* ---------- Halaman error ---------- */
+
 .error-code {
     font-size: 72px;
     font-weight: 800;
@@ -205,14 +345,13 @@ code.inline {
     color: var(--brand);
 }
 
-/* Varian tema gelap untuk komponen yang warnanya di-hardcode di atas */
+/* ---------- Penyesuaian tema gelap ---------- */
+
 [data-bs-theme="dark"] code.inline {
-    background: #1e293b;
-    color: #e2e8f0;
+    background: rgba(216, 167, 177, .14);
+    color: #F0C4CE;
 }
 
-/* pre.code sengaja navy gelap di mode terang (biar kontras) -- tapi di mode
-   gelap dia harus ikut warna permukaan Bootstrap, bukan navy sendiri. */
 [data-bs-theme="dark"] pre.code {
     background: var(--bs-tertiary-bg);
     color: var(--bs-body-color);
@@ -223,36 +362,20 @@ code.inline {
     color: var(--bs-secondary-color);
 }
 
-[data-bs-theme="dark"] .demo-preview {
-    border-color: #334155;
+[data-bs-theme="dark"] .card {
+    box-shadow: none;
 }
 
-[data-bs-theme="dark"] .demo-preview-label {
-    background: #1e293b;
-    color: #94a3b8;
-    border-color: #334155;
-}
-
-[data-bs-theme="dark"] .demo-preview-body {
-    background: var(--bs-body-bg);
-}
-
+[data-bs-theme="dark"] .demo-preview-label,
 [data-bs-theme="dark"] .badge-brand,
-[data-bs-theme="dark"] .bg-brand-subtle,
-[data-bs-theme="dark"] .step-number {
-    background-color: rgba(194, 65, 12, .18) !important;
-    color: #fb923c;
-}
-
-[data-bs-theme="dark"] .demo-box {
-    background-color: rgba(194, 65, 12, .18);
-    border-color: rgba(194, 65, 12, .4);
-    color: #fb923c;
+[data-bs-theme="dark"] .step-number,
+[data-bs-theme="dark"] .demo-box,
+[data-bs-theme="dark"] .bg-brand-subtle {
+    color: #F0C4CE;
 }
 
 [data-bs-theme="dark"] .demo-box-alt {
-    background-color: rgba(99, 102, 241, .18);
-    border-color: rgba(99, 102, 241, .4);
-    color: #a5b4fc;
+    background-color: rgba(139, 105, 200, .16);
+    border-color: rgba(139, 105, 200, .4);
+    color: #CDB8F0;
 }
-

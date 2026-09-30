@@ -8,6 +8,8 @@ use App\Controllers\Core\RoleController;
 use App\Controllers\Core\UserController;
 use App\Controllers\KategoriController;
 use App\Controllers\DataBukuController;
+use App\Controllers\PeminjamanController;
+use App\Controllers\PengembalianController;
 use Sakuci\Route;
 
 /*
@@ -44,6 +46,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.at
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
+Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat')->middleware('auth');
+
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
 
@@ -75,6 +79,26 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::delete('/data_buku/{id_buku}', [App\Controllers\DataBukuController::class, 'destroy'])->name('data_buku.destroy');
     Route::put('/data_buku/{id_buku}', [App\Controllers\DataBukuController::class, 'update'])->name('data_buku.update');
     Route::get('/kategori/databuku',[DataBukuController::class, 'index'])->name('admin.kategori.databuku');
+
+    //Peminjaman routes
+    Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+
+    Route::get('/peminjaman/edit/{id_peminjaman}', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
+    Route::delete('/peminjaman/{id_peminjaman}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+    Route::put('/peminjaman/{id_peminjaman}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
+    Route::put('/peminjaman/{id_peminjaman}/kembalikan', [PeminjamanController::class, 'kembalikan'])->name('peminjaman.kembalikan');
+
+    //pengembalian routes
+    Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+    Route::get('/pengembalian/create', [PengembalianController::class, 'create'])->name('pengembalian.create');
+    Route::post('/pengembalian/store', [PengembaliannController::class, 'store'])->name('pengembalian.store');
+
+    Route::get('/pengembalian/edit/{id_buku}', [App\Controllers\PengembalianController::class, 'edit'])->name('pengembalian.edit');
+    Route::delete('/pengembalian/{id_buku}', [App\Controllers\PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
+    Route::put('/pengembalian/{id_buku}', [App\Controllers\PengembalianController::class, 'update'])->name('pengembalian.update');
+    Route::get('/kategori/databuku/peminjaman/pengembalian',[PengembalianController::class, 'index'])->name('admin.kategori.databuku.peminjaman.pengembalian');
     });
 
 /*
@@ -87,6 +111,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 */
 // @generated-roles:start
 
+// @role:peminjam:start
+Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('peminjam.dashboard');
+});
+// @role:peminjam:end
 // @generated-roles:end
 
 /*
