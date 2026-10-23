@@ -192,10 +192,22 @@ if (! function_exists('asset')) {
 }
 
 if (! function_exists('route')) {
-    /** Bangun URL dari nama route: route('posts.show', ['id' => 3]) */
-    function route(string $name, array $parameters = []): string
+    /** Bangun URL dari nama route: route('posts.show', ['id' => 3]) atau route('posts.show', 3) */
+    function route(string $name, array|int|string $parameters = []): string
     {
+        if (! is_array($parameters)) {
+            $parameters = ['id' => $parameters];
+        }
+
         return Route::urlFor($name, $parameters);
+    }
+}
+
+if (! function_exists('rupiah')) {
+    /** Format angka jadi rupiah: 3000 -> Rp 3.000 */
+    function rupiah(mixed $angka): string
+    {
+        return 'Rp ' . number_format((float) $angka, 0, ',', '.');
     }
 }
 
@@ -356,4 +368,3 @@ if (! function_exists('dump')) {
         }
     }
 }
-

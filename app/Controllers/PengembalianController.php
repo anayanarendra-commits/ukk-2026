@@ -17,7 +17,7 @@ class PengembalianController
     {
         $pengembalian = Pengembalian::query()->paginate();
 
-        return view('admin.pengembalian.index', compact('pengembalian'));
+        return view('pengembalian.index', compact('pengembalian'));
     }
 
     // Form pengembalian: hanya peminjaman yang masih berstatus "dipinjam"
@@ -27,7 +27,7 @@ class PengembalianController
             ->where('status', 'dipinjam')
             ->get();
 
-        return view('admin.pengembalian.create', compact('daftarPeminjaman'));
+        return view('pengembalian.create', compact('daftarPeminjaman'));
     }
 
     // Simpan pengembalian
@@ -68,7 +68,7 @@ class PengembalianController
             'denda'                => $denda,
         ]);
 
-        return redirect()->route('pengembalian.index')
+        return redirect()->route('peminjaman.riwayat')
             ->with('success', 'Pengembalian berhasil dicatat.');
     }
 
@@ -86,14 +86,14 @@ class PengembalianController
 
         $pengembalian->delete();
 
-        return redirect()->route('pengembalian.index')
+        return redirect()->route('peminjaman.riwayat')
             ->with('success', 'Data pengembalian dihapus.');
     }
 
     // Hitung denda: hari terlambat x tarif per hari
     private function hitungDenda($tanggalWajib, $tanggalKembali): int
     {
-        $wajib  = strtotime($tanggalWajib);
+        $wajib   = strtotime($tanggalWajib);
         $kembali = strtotime($tanggalKembali);
 
         if ($kembali <= $wajib) {

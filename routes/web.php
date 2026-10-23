@@ -10,32 +10,14 @@ use App\Controllers\KategoriController;
 use App\Controllers\DataBukuController;
 use App\Controllers\PeminjamanController;
 use App\Controllers\PengembalianController;
+use App\Controllers\SiswaController;
 use Sakuci\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Route Web
-|--------------------------------------------------------------------------
-| Daftarkan seluruh route aplikasi di sini.
-|
-| Cara menulis action:
-|   [HomeController::class, 'index']   -> disarankan
-|   'HomeController@index'             -> namespace App\Controllers otomatis
-|   function () { ... }                -> closure
-*/
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
 Route::get('/docs', [DocsController::class, 'index'])->name('docs');
-
-/*
-|--------------------------------------------------------------------------
-| Login multi-role
-|--------------------------------------------------------------------------
-| Lihat /docs untuk penjelasan lengkap langkah demi langkah.
-*/
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt')->middleware('guest');
@@ -47,6 +29,11 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.at
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat')->middleware('auth');
+
+// Alamat lama: dialihkan ke riwayat peminjaman
+Route::get('/pengembalian/riwayat', function () {
+    return redirect()->route('peminjaman.riwayat');
+})->name('pengembalian.riwayat')->middleware('auth');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', [DashboardController::class, 'admin'])->name('admin.dashboard');
@@ -61,45 +48,57 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::get('/database/export', [DatabaseController::class, 'export'])->name('admin.database.export');
 
-    //Kategori routes 
+    //Kategori routes
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
     Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
-
-    Route::get('/kategori/edit/{id_kategori}', [App\Controllers\KategoriController::class, 'edit'])->name('kategori.edit');
-    Route::delete('/kategori/{id_kategori}', [App\Controllers\KategoriController::class, 'destroy'])->name('kategori.destroy');
-    Route::put('/kategori/{id_kategori}', [App\Controllers\KategoriController::class, 'update'])->name('kategori.update');
+    Route::get('/kategori/edit/{id_kategori}', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    Route::put('/kategori/{id_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
 
     //DataBuku routes
     Route::get('/data_buku', [DataBukuController::class, 'index'])->name('data_buku.index');
     Route::get('/data_buku/create', [DataBukuController::class, 'create'])->name('data_buku.create');
     Route::post('/data_buku/store', [DataBukuController::class, 'store'])->name('data_buku.store');
-
-    Route::get('/data_buku/edit/{id_buku}', [App\Controllers\DataBukuController::class, 'edit'])->name('data_buku.edit');
-    Route::delete('/data_buku/{id_buku}', [App\Controllers\DataBukuController::class, 'destroy'])->name('data_buku.destroy');
-    Route::put('/data_buku/{id_buku}', [App\Controllers\DataBukuController::class, 'update'])->name('data_buku.update');
-    Route::get('/kategori/databuku',[DataBukuController::class, 'index'])->name('admin.kategori.databuku');
+    Route::get('/data_buku/edit/{id_buku}', [DataBukuController::class, 'edit'])->name('data_buku.edit');
+    Route::delete('/data_buku/{id_buku}', [DataBukuController::class, 'destroy'])->name('data_buku.destroy');
+    Route::put('/data_buku/{id_buku}', [DataBukuController::class, 'update'])->name('data_buku.update');
+    Route::get('/kategori/databuku', [DataBukuController::class, 'index'])->name('admin.kategori.databuku');
 
     //Peminjaman routes
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
     Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
     Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
-
     Route::get('/peminjaman/edit/{id_peminjaman}', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
     Route::delete('/peminjaman/{id_peminjaman}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
     Route::put('/peminjaman/{id_peminjaman}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
     Route::put('/peminjaman/{id_peminjaman}/kembalikan', [PeminjamanController::class, 'kembalikan'])->name('peminjaman.kembalikan');
+    Route::put('/peminjaman/{id_peminjaman}/setujui', [PeminjamanController::class, 'setujui'])->name('peminjaman.setujui');
 
-    //pengembalian routes
+    //Pengembalian routes
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/create', [PengembalianController::class, 'create'])->name('pengembalian.create');
-    Route::post('/pengembalian/store', [PengembaliannController::class, 'store'])->name('pengembalian.store');
+    Route::post('/pengembalian/store', [PengembalianController::class, 'store'])->name('pengembalian.store');
+    Route::get('/pengembalian/edit/{id_buku}', [PengembalianController::class, 'edit'])->name('pengembalian.edit');
+    Route::delete('/pengembalian/{id_buku}', [PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
+    Route::put('/pengembalian/{id_buku}', [PengembalianController::class, 'update'])->name('pengembalian.update');
+    Route::get('/kategori/databuku/peminjaman/pengembalian', [PengembalianController::class, 'index'])->name('admin.kategori.databuku.peminjaman.pengembalian');
+});
 
-    Route::get('/pengembalian/edit/{id_buku}', [App\Controllers\PengembalianController::class, 'edit'])->name('pengembalian.edit');
-    Route::delete('/pengembalian/{id_buku}', [App\Controllers\PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
-    Route::put('/pengembalian/{id_buku}', [App\Controllers\PengembalianController::class, 'update'])->name('pengembalian.update');
-    Route::get('/kategori/databuku/peminjaman/pengembalian',[PengembalianController::class, 'index'])->name('admin.kategori.databuku.peminjaman.pengembalian');
-    });
+//Rute khusus siswa (role peminjam)
+Route::group(['prefix' => 'siswa', 'middleware' => 'peminjam'], function () {
+    Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
+    Route::get('/cari', [SiswaController::class, 'cari'])->name('siswa.cari');
+
+    Route::get('/kategori', [SiswaController::class, 'kategori'])->name('siswa.kategori');
+    Route::get('/kategori/{id_kategori}', [SiswaController::class, 'bukuKategori'])->name('siswa.kategori.buku');
+
+    Route::get('/peminjaman', [SiswaController::class, 'index'])->name('siswa.peminjaman.index');
+    Route::get('/peminjaman/create', [SiswaController::class, 'create'])->name('siswa.peminjaman.create');
+    Route::post('/peminjaman/store', [SiswaController::class, 'store'])->name('siswa.peminjaman.store');
+    Route::post('/peminjaman/{id_peminjaman}/kembalikan', [SiswaController::class, 'kembalikan'])->name('siswa.peminjaman.kembalikan');
+    Route::post('/peminjaman/{id_peminjaman}/bayar-denda', [SiswaController::class, 'bayarDenda'])->name('siswa.peminjaman.bayar');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -117,22 +116,3 @@ Route::group(['prefix' => 'peminjam', 'middleware' => 'peminjam'], function () {
 });
 // @role:peminjam:end
 // @generated-roles:end
-
-/*
-|--------------------------------------------------------------------------
-| Contoh (hapus/ubah sesuai kebutuhan)
-|--------------------------------------------------------------------------
-|
-| use App\Controllers\BukuController;
-|
-| Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
-|
-| // Tujuh route CRUD sekaligus: index, create, store, show, edit, update, destroy
-| // Route::resource
-|
-| // Group dengan prefix dan middleware bersama
-| Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-|     Route::get('/dashboard', [DashboardController::class, 'index']);
-| });
-*/
-

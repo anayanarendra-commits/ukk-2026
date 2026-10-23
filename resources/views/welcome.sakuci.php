@@ -538,8 +538,8 @@
         </form>
 
         <div class="d-flex flex-wrap gap-3 justify-content-center">
-            <a href="{{ route('register') }}" class="btn-sakura">🌸 Mulai Meminjam</a>
-            <a href="{{ route('docs') }}" class="btn-sakura-outline">Lihat Panduan</a>
+            <a href="{{ route('login') }}" class="btn-sakura">🌸 Login</a>
+            <a href="{{ route('register') }}" class="btn-sakura-outline">Registrasi</a>
         </div>
         </div>
     </div>

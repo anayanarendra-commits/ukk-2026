@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `pengembalian` (
     id_peminjaman         INT UNSIGNED NOT NULL UNIQUE,
     tanggal_dikembalikan  DATE NOT NULL,
     kondisi_buku          ENUM('baik', 'rusak', 'hilang') NOT NULL DEFAULT 'baik',
-    denda                 INT UNSIGNED NOT NULL DEFAULT 0,
+    denda                 DECIMAL(10,0) NOT NULL,
     catatan_admin         TEXT NULL,
     created_at            DATETIME NULL,
     updated_at            DATETIME NULL,

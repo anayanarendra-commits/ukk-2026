@@ -49,6 +49,20 @@
     .notif.sukses { background: var(--pk-soft); border: 2px solid var(--pk-rose); color: var(--pk-ink); }
     .notif.gagal { background: #fff; border: 2px solid var(--pk-deep); color: var(--pk-deep); }
 
+    /* Bagian pengajuan siswa yang menunggu persetujuan */
+    .blok-pengajuan {
+        margin-bottom: 2.4rem; padding: 1.3rem 1.3rem .6rem;
+        background: rgba(255, 214, 224, .35); border: 2px dashed var(--pk-rose); border-radius: 22px;
+    }
+    .blok-sedang { margin-top: .4rem; }
+    .blok-judul { display: flex; align-items: center; gap: .6rem; margin: 0 0 .2rem; }
+    .blok-judul h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.5rem; margin: 0; letter-spacing: -.3px; }
+    .blok-judul .hitung {
+        display: inline-block; min-width: 1.8rem; text-align: center; padding: .1rem .6rem; border-radius: 999px;
+        background: var(--pk-deep); color: #fff; font-weight: 700; font-size: .85rem;
+    }
+    .blok-ket { margin: 0 0 .3rem; color: var(--pk-deep); font-size: .9rem; }
+
     /* Tabel: tiap baris jadi kartu peminjaman */
     .rak { width: 100%; border-collapse: separate; border-spacing: 0 .7rem; }
     .rak thead th {
@@ -89,6 +103,8 @@
     .aksi-btn:hover { background: var(--pk-soft); color: var(--pk-ink); }
     .aksi-btn.kembali { background: var(--pk-rose); border-color: var(--pk-rose); }
     .aksi-btn.kembali:hover { background: var(--pk-deep); border-color: var(--pk-deep); color: #fff; }
+    .aksi-btn.setujui { background: var(--pk-deep); border-color: var(--pk-deep); color: #fff; }
+    .aksi-btn.setujui:hover { background: #b84f65; border-color: #b84f65; color: #fff; }
     .aksi-btn.hapus { border-color: var(--pk-deep); color: var(--pk-deep); }
     .aksi-btn.hapus:hover { background: var(--pk-deep); color: #fff; }
     .aksi-btn:focus-visible, .btn-pink:focus-visible, .btn-garis:focus-visible { outline: 3px solid var(--pk-ink); outline-offset: 2px; }
@@ -122,12 +138,26 @@
     .katalog nav p.text-sm { display: none; }
 </style>
 
+@php
+    // Pengajuan siswa yang belum di-ACC (disalin ke array supaya aman dihitung)
+    $daftarPengajuan = [];
+    foreach (($pengajuan ?? []) as $x) {
+        $daftarPengajuan[] = $x;
+    }
+
+    // Nomor urut (1, 2, 3, ...) menggantikan ID database.
+    // Tabel utama dipaginasi 5 per halaman, jadi nomor lanjut di halaman berikutnya.
+    $halaman       = max(1, (int) ($_GET['page'] ?? 1));
+    $no            = ($halaman - 1) * 5;
+    $nomorAjuan    = 0;
+@endphp
+
 <div class="katalog">
 
     <div class="katalog-head">
         <div>
             <h1>Peminjaman Berjalan</h1>
-            <p>Buku yang sedang dipinjam dan menunggu konfirmasi</p>
+            <p>Buku yang sedang dipinjam, dan pengajuan siswa yang menunggu persetujuan</p>
         </div>
         <div class="head-aksi">
             <a href="{{ route('peminjaman.riwayat') }}" class="btn-garis">Lihat riwayat</a>
@@ -135,12 +165,67 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="notif sukses">{{ session('success') }}</div>
-    @endif
+    {{-- Notifikasi sukses sudah ditampilkan oleh layout (warna hijau), jadi tidak diulang di sini --}}
     @if (session('error'))
         <div class="notif gagal">{{ session('error') }}</div>
     @endif
+
+    {{-- Pengajuan siswa: buku baru resmi dipinjam setelah admin menyetujui --}}
+    @if (count($daftarPengajuan) > 0)
+        <div class="blok-pengajuan">
+            <div class="blok-judul">
+                <h2>Menunggu persetujuan</h2>
+                <span class="hitung">{{ count($daftarPengajuan) }}</span>
+            </div>
+            <p class="blok-ket">Siswa belum bisa memakai buku ini sampai kamu menyetujuinya. Lama pinjam 7 hari dihitung dari hari persetujuan.</p>
+
+            <div style="overflow-x:auto">
+                <table class="rak">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Peminjam</th>
+                            <th>Buku</th>
+                            <th>Diajukan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($daftarPengajuan as $a)
+                        @php $nomorAjuan++; @endphp
+                        <tr>
+                            <td>{{ $nomorAjuan }}</td>
+                            <td>{{ $users[$a->id_user]->username ?? ($users[$a->id_user]->name ?? '-') }}</td>
+                            <td>{{ $buku[$a->id_buku]->judul_buku ?? '-' }}</td>
+                            <td>{{ $a->tanggal_pinjam }}</td>
+                            <td>
+                                <div class="aksi">
+                                    <form action="{{ route('peminjaman.setujui', ['id_peminjaman' => $a->id_peminjaman]) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="aksi-btn setujui" onclick="return confirm('Setujui pengajuan ini? Buku akan resmi dipinjam siswa.')">Setujui</button>
+                                    </form>
+                                    <form action="{{ route('peminjaman.destroy', ['id_peminjaman' => $a->id_peminjaman]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="aksi-btn hapus" onclick="return confirm('Tolak pengajuan ini? Pengajuan akan dihapus.')">Tolak</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    <div class="blok-sedang">
+        <div class="blok-judul">
+            <h2>Sedang dipinjam</h2>
+        </div>
+        <p class="blok-ket">Buku yang sudah disetujui dan sedang dipinjam siswa.</p>
+    </div>
 
     <div style="overflow-x:auto">
         <table class="rak">
@@ -158,10 +243,11 @@
             <tbody>
             @forelse ($peminjaman as $p)
                 @php
+                    $no++;
                     $terlambat = $p->status === 'dipinjam' && $p->tanggal_wajib_kembali < date('Y-m-d');
                 @endphp
                 <tr>
-                    <td>{{ $p->id_peminjaman }}</td>
+                    <td>{{ $no }}</td>
                     <td>{{ $users[$p->id_user]->username ?? ($users[$p->id_user]->name ?? '-') }}</td>
                     <td>{{ $buku[$p->id_buku]->judul_buku ?? '-' }}</td>
                     <td>{{ $p->tanggal_pinjam }}</td>
@@ -185,7 +271,7 @@
                                     <button type="submit" class="aksi-btn kembali" onclick="return confirm('Tandai buku ini sudah dikembalikan?')">Kembalikan</button>
                                 </form>
                             @endif
-                                <form action="{{ route('peminjaman.destroy', ['id_peminjaman' => $p->id_peminjaman]) }}" method="POST">
+                            <form action="{{ route('peminjaman.destroy', ['id_peminjaman' => $p->id_peminjaman]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="aksi-btn hapus" onclick="return confirm('Hapus data peminjaman ini?')">Hapus</button>

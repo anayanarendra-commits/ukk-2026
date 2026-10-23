@@ -77,6 +77,9 @@
     .lencana.menunggu { background: #fff; border: 2px dashed var(--pk-rose); color: var(--pk-ink); }
     .lencana.dipinjam { background: var(--pk-soft); color: var(--pk-ink); }
     .lencana.telat { background: var(--pk-deep); color: #fff; margin-left: .4rem; }
+    .lencana.lunas { background: #e6f5ea; color: #2f7a4a; margin-left: .4rem; }
+    .lencana.belum { background: #fff0e8; border: 2px dashed #f0a98a; color: #b4400f; margin-left: .4rem; }
+    .denda-sel { white-space: nowrap; }
 
     .aksi { display: flex; gap: .5rem; align-items: center; justify-content: flex-end; flex-wrap: nowrap; }
     .aksi form { margin: 0; display: inline-block; }
@@ -164,7 +167,16 @@
                     <td>{{ $p->tanggal_pinjam }}</td>
                     <td>{{ $p->tanggal_wajib_kembali }}</td>
                     <td><span class="lencana dipinjam">Dikembalikan</span></td>
-                    <td>Rp {{ number_format((float) ($p->denda ?? 0), 0, ',', '.') }}</td>
+                    <td class="denda-sel">
+                        Rp {{ number_format((float) ($p->denda ?? 0), 0, ',', '.') }}
+                        @if ((float) ($p->denda ?? 0) > 0)
+                            @if (!empty($p->denda_lunas))
+                                <span class="lencana lunas">Lunas</span>
+                            @else
+                                <span class="lencana belum">Belum bayar</span>
+                            @endif
+                        @endif
+                    </td>
                     <td>
                         <div class="aksi">
                             <form action="{{ route('peminjaman.destroy', $p->id_peminjaman) }}" method="POST">

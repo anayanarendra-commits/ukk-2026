@@ -30,7 +30,6 @@
     .katalog-head h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.2rem; margin: 0; letter-spacing: -.5px; }
     .katalog-head p { margin: .25rem 0 0; color: var(--pk-deep); font-size: .95rem; }
 
-    /* Kartu form: punggung buku di sisi kiri */
     .form-kartu {
         background: var(--pk-card);
         border-left: 14px solid var(--pk-rose);
@@ -80,10 +79,11 @@
             $tglPinjam = old('tanggal_pinjam') ?: substr((string) ($p->tanggal_pinjam ?? date('Y-m-d')), 0, 10);
             $tglKembali = old('tanggal_wajib_kembali') ?: substr((string) ($p->tanggal_wajib_kembali ?? date('Y-m-d', strtotime('+7 days'))), 0, 10);
             $statusNow = old('status') ?: ($p->status ?? 'dipinjam');
-            $dendaNow = old('denda') ?: ($p->denda ?? 0);
             $userNow = old('id_user') ?: ($p->id_user ?? '');
             $bukuNow = old('id_buku') ?: ($p->id_buku ?? '');
         @endphp
+
+        <input type="hidden" name="denda" value="0">
 
         <div class="baris">
             <div class="grup">
@@ -132,12 +132,6 @@
                     <option value="dikembalikan" {{ $statusNow === 'dikembalikan' ? 'selected' : '' }}>Dikembalikan</option>
                 </select>
                 @error('status') <div class="galat">{{ $message }}</div> @enderror
-            </div>
-
-            <div class="grup">
-                <label for="denda">Denda (Rp)</label>
-                <input type="number" min="0" step="1" name="denda" id="denda" class="isian {{ errors()->has('denda') ? 'salah' : '' }}" value="{{ $dendaNow }}">
-                @error('denda') <div class="galat">{{ $message }}</div> @enderror
             </div>
         </div>
 
