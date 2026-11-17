@@ -355,5 +355,6 @@
     <p>Daftar sekarang dan temukan buku pertamamu di Perpustakaan Sakura hari ini juga.</p>
     <a href="{{ route('register') }}" class="btn-sakura-outline">🌸 Daftar Gratis</a>
 </section>
+\\TEST\\
 
 @endsection
