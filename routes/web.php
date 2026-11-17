@@ -90,6 +90,9 @@ Route::group(['prefix' => 'siswa', 'middleware' => 'peminjam'], function () {
     Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
     Route::get('/cari', [SiswaController::class, 'cari'])->name('siswa.cari');
 
+    // Histori pengembalian siswa
+    Route::get('/histori-pengembalian', [SiswaController::class, 'historiPengembalian'])->name('siswa.histori');
+
     Route::get('/kategori', [SiswaController::class, 'kategori'])->name('siswa.kategori');
     Route::get('/kategori/{id_kategori}', [SiswaController::class, 'bukuKategori'])->name('siswa.kategori.buku');
 

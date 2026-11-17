@@ -31,6 +31,7 @@ class DataBukuController extends Controller
             'pengarang' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|integer|digits:4',
+            'id_kategori' => 'required|integer',
         ]);
         DataBuku::create($validatedData);
         return redirect()->route('data_buku.index')->with('success', 'Buku berhasil ditambahkan.');
@@ -50,6 +51,7 @@ class DataBukuController extends Controller
             'pengarang' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|integer|digits:4',
+            'id_kategori' => 'required|integer',
         ]);
 
         $data_buku = DataBuku::findOrFail($id_buku);
@@ -58,6 +60,7 @@ class DataBukuController extends Controller
             'pengarang' => $request->pengarang,
             'penerbit' => $request->penerbit,
             'tahun_terbit' => $request->tahun_terbit,
+            'id_kategori' => $request->id_kategori,
         ]);
 
         return redirect()->route('data_buku.index')->with('success', 'Data Buku berhasil diperbarui.');

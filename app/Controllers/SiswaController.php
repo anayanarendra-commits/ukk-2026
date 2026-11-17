@@ -169,6 +169,45 @@ class SiswaController extends Controller
         ]);
     }
 
+    // Histori pengembalian: semua buku yang sudah dikembalikan siswa yang login
+    // (termasuk yang dendanya sudah lunas). Bisa dicari berdasarkan judul.
+    public function historiPengembalian(Request $request)
+    {
+        $kata = trim($_GET['q'] ?? '');
+
+        $buku = $this->petaBuku();
+
+        $semua = Peminjaman::where('id_user', $this->idSaya())
+            ->orderBy('id_peminjaman', 'desc')
+            ->get();
+
+        $histori = [];
+        $denda   = [];
+        foreach ($semua as $p) {
+            if ($p->status !== 'dikembalikan') {
+                continue;
+            }
+
+            // Cari berdasarkan judul buku
+            if ($kata !== '') {
+                $judul = isset($buku[$p->id_buku]) ? (string) $buku[$p->id_buku]->judul_buku : '';
+                if (stripos($judul, $kata) === false) {
+                    continue;
+                }
+            }
+
+            $histori[] = $p;
+            $denda[$p->id_peminjaman] = $this->infoDenda($p);
+        }
+
+        return view('siswa.histori', [
+            'histori' => $histori,
+            'denda'   => $denda,
+            'buku'    => $buku,
+            'kata'    => $kata,
+        ]);
+    }
+
     // Form pengajuan: buku sudah dipilih dari halaman kategori (?buku=ID),
     // jadi siswa langsung melihat tanggal pinjam dan batas kembali.
     public function create(Request $request)

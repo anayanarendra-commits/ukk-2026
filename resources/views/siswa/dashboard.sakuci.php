@@ -426,11 +426,12 @@ $bentukKelopak = 'M0 0 C-12 -8 -13 -26 -4 -31 L0 -27 L4 -31 C13 -26 12 -8 0 0 Z'
 </div>
 
 <?php
-// ===== Menu samping siswa: Kategori & Pengembalian Buku =====
+// ===== Menu samping siswa: Dashboard, Kategori, Pengembalian Buku, Histori Pengembalian =====
 $sbPath     = rtrim((string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
 $sbKategori = strpos($sbPath, '/siswa/kategori') === 0 || $sbPath === '/siswa/peminjaman/create';
 $sbKembali  = $sbPath === '/siswa/peminjaman';
 $sbDashboard = $sbPath === '/siswa/dashboard';
+$sbHistori   = $sbPath === '/siswa/histori-pengembalian';
 $sbUser     = null;
 try { $sbUser = \App\Models\User::current(); } catch (\Throwable $e) { $sbUser = null; }
 ?>
@@ -587,6 +588,14 @@ try { $sbUser = \App\Models\User::current(); } catch (\Throwable $e) { $sbUser =
                         <path d="M9 14 4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/>
                     </svg>
                     Pengembalian Buku
+                </a>
+            </li>
+            <li>
+                <a class="sb-link <?= $sbHistori ? 'aktif' : '' ?>" href="<?= url('/siswa/histori-pengembalian') ?>">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>
+                    </svg>
+                    Histori Pengembalian
                 </a>
             </li>
         </ul>
