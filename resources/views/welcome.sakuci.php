@@ -6,54 +6,54 @@
 
 <style>
     :root {
-        /* Biru awan */
-        --sky-50:  #f2f9ff;
-        --sky-100: #e0f1fc;
-        --sky-200: #c2e3f8;
-        --sky-300: #93d0f3;
-        --sky-400: #5fb8e8;
-        --sky-500: #3a9fdc;
-        --sky-600: #2a85c0;
-        --sky-ink: #1f4e6e;
-        --sky-sub: #5a87a3;
-        --sky-soft: #7fa6bd;
-        --sky-glow: rgba(42, 133, 192, .18);
+        /* Pink sakura soft */
+        --pink-50:  #fff7fa;
+        --pink-100: #ffeaf2;
+        --pink-200: #ffd6e6;
+        --pink-300: #ffb8d2;
+        --pink-400: #f98fb7;
+        --pink-500: #ee6c9f;
+        --pink-600: #d94f86;
+        --pink-ink: #7a2f4f;
+        --pink-sub: #a8627f;
+        --pink-soft: #c78ba3;
+        --pink-glow: rgba(238, 108, 159, .18);
         --card-bg: #ffffff;
 
-        /* Kelopak kuning */
-        --petal-1: #ffe58a;
-        --petal-2: #ffd23f;
-        --petal-3: #fff1b8;
+        /* Kelopak sakura pink */
+        --petal-1: #ffc2d9;
+        --petal-2: #ff9fc2;
+        --petal-3: #ffe0ec;
     }
 
     /* Mode gelap: ikut tombol tema situs */
     html[data-bs-theme="dark"], html[data-theme="dark"], body.dark, body.dark-mode {
-        --sky-50:  #12222e;
-        --sky-100: #183042;
-        --sky-200: #214259;
-        --sky-300: #2f6285;
-        --sky-400: #4a9bcf;
-        --sky-500: #5fb8e8;
-        --sky-600: #8fd0f2;
-        --sky-ink: #e3f4ff;
-        --sky-sub: #a9cde2;
-        --sky-soft: #7fa6bd;
-        --sky-glow: rgba(95, 184, 232, .2);
-        --card-bg: #14232f;
+        --pink-50:  #2a1620;
+        --pink-100: #36202c;
+        --pink-200: #4a2b3b;
+        --pink-300: #7a4260;
+        --pink-400: #d9729f;
+        --pink-500: #ee8ab3;
+        --pink-600: #ffb3d0;
+        --pink-ink: #ffeaf3;
+        --pink-sub: #e0b3c7;
+        --pink-soft: #c78ba3;
+        --pink-glow: rgba(238, 138, 179, .2);
+        --card-bg: #2b1a23;
     }
 
     .sakura-hero {
         position: relative;
         overflow: hidden;
         border-radius: 28px;
-        background: linear-gradient(160deg, var(--sky-50) 0%, var(--sky-100) 55%, var(--sky-200) 100%);
+        background: linear-gradient(160deg, var(--pink-50) 0%, var(--pink-100) 55%, var(--pink-200) 100%);
         padding: 4rem 1.5rem;
         text-align: center;
         margin-bottom: 3rem;
         isolation: isolate;
     }
 
-    /* Kelopak jatuh (kuning) */
+    /* Kelopak jatuh (pink sakura) */
     .petal {
         position: absolute;
         top: -10%;
@@ -89,33 +89,33 @@
         align-items: center;
         gap: 0.4rem;
         background: var(--card-bg);
-        color: var(--sky-600);
-        border: 1px solid var(--sky-200);
+        color: var(--pink-600);
+        border: 1px solid var(--pink-200);
         padding: 0.4rem 1rem;
         border-radius: 999px;
         font-size: 0.85rem;
         font-weight: 600;
         margin-bottom: 1.25rem;
-        box-shadow: 0 4px 14px var(--sky-glow);
+        box-shadow: 0 4px 14px var(--pink-glow);
     }
 
     .sakura-title {
         font-weight: 800;
         font-size: clamp(2.1rem, 5vw, 3.2rem);
-        color: var(--sky-ink);
+        color: var(--pink-ink);
         margin-bottom: 1rem;
         line-height: 1.15;
     }
 
     .sakura-title .accent {
-        background: linear-gradient(90deg, var(--sky-500), var(--sky-600));
+        background: linear-gradient(90deg, var(--pink-400), var(--pink-600));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
     }
 
     .sakura-subtitle {
-        color: var(--sky-sub);
+        color: var(--pink-sub);
         max-width: 560px;
         margin: 0 auto 2rem;
         font-size: 1.05rem;
@@ -129,8 +129,8 @@
         background: var(--card-bg);
         padding: 0.4rem;
         border-radius: 999px;
-        box-shadow: 0 10px 30px var(--sky-glow);
-        border: 1px solid var(--sky-200);
+        box-shadow: 0 10px 30px var(--pink-glow);
+        border: 1px solid var(--pink-200);
     }
     .sakura-search input {
         flex: 1;
@@ -139,12 +139,12 @@
         background: transparent;
         padding: 0.6rem 1rem;
         font-size: 0.95rem;
-        color: var(--sky-ink);
+        color: var(--pink-ink);
     }
-    .sakura-search input::placeholder { color: var(--sky-soft); }
+    .sakura-search input::placeholder { color: var(--pink-soft); }
     .sakura-search button {
         border: none;
-        background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+        background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
         color: white;
         font-weight: 600;
         padding: 0.6rem 1.4rem;
@@ -156,13 +156,13 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+        background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
         color: white !important;
         font-weight: 600;
         padding: 0.75rem 1.75rem;
         border-radius: 999px;
         text-decoration: none;
-        box-shadow: 0 10px 25px rgba(42, 133, 192, .3);
+        box-shadow: 0 10px 25px rgba(238, 108, 159, .3);
         transition: transform 0.15s ease;
     }
     .btn-sakura:hover { transform: translateY(-2px); }
@@ -172,16 +172,16 @@
         align-items: center;
         gap: 0.5rem;
         background: var(--card-bg);
-        color: var(--sky-600) !important;
+        color: var(--pink-600) !important;
         font-weight: 600;
         padding: 0.75rem 1.75rem;
         border-radius: 999px;
         text-decoration: none;
-        border: 1.5px solid var(--sky-300);
+        border: 1.5px solid var(--pink-300);
     }
 
     .sakura-card {
-        border: 1px solid var(--sky-100);
+        border: 1px solid var(--pink-100);
         border-radius: 20px;
         background: var(--card-bg);
         padding: 1.75rem;
@@ -190,21 +190,21 @@
     }
     .sakura-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 14px 30px var(--sky-glow);
+        box-shadow: 0 14px 30px var(--pink-glow);
     }
     .sakura-icon {
         width: 52px;
         height: 52px;
         border-radius: 16px;
-        background: linear-gradient(135deg, var(--sky-100), var(--sky-200));
+        background: linear-gradient(135deg, var(--pink-100), var(--pink-200));
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.4rem;
         margin-bottom: 1rem;
     }
-    .sakura-card h3 { color: var(--sky-ink); font-weight: 700; font-size: 1.1rem; }
-    .sakura-card p { color: var(--sky-sub); font-size: 0.92rem; margin-bottom: 0; }
+    .sakura-card h3 { color: var(--pink-ink); font-weight: 700; font-size: 1.1rem; }
+    .sakura-card p { color: var(--pink-sub); font-size: 0.92rem; margin-bottom: 0; }
 
     .section-heading {
         text-align: center;
@@ -212,14 +212,14 @@
         margin: 0 auto 2.5rem;
     }
     .section-heading .eyebrow {
-        color: var(--sky-500);
+        color: var(--pink-500);
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
         font-size: 0.8rem;
     }
     .section-heading h2 {
-        color: var(--sky-ink);
+        color: var(--pink-ink);
         font-weight: 800;
         margin-top: 0.4rem;
     }
@@ -228,9 +228,9 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: var(--sky-50);
-        border: 1px solid var(--sky-200);
-        color: var(--sky-ink);
+        background: var(--pink-50);
+        border: 1px solid var(--pink-200);
+        color: var(--pink-ink);
         padding: 0.6rem 1.2rem;
         border-radius: 999px;
         font-weight: 600;
@@ -239,11 +239,11 @@
         margin: 0.3rem;
         transition: background 0.2s ease;
     }
-    .kategori-pill:hover { background: var(--sky-200); }
+    .kategori-pill:hover { background: var(--pink-200); }
 
     .sakura-cta {
         border-radius: 28px;
-        background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+        background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
         color: white;
         text-align: center;
         padding: 3rem 1.5rem;
@@ -255,15 +255,15 @@
         content: "🌸";
         position: absolute;
         font-size: 3rem;
-        opacity: 0.15;
+        opacity: 0.2;
     }
     .sakura-cta::before { top: -1rem; left: -1rem; }
     .sakura-cta::after { bottom: -1rem; right: -1rem; }
     .sakura-cta h2 { font-weight: 800; margin-bottom: 0.75rem; }
-    .sakura-cta p { opacity: 0.9; max-width: 480px; margin: 0 auto 1.75rem; }
+    .sakura-cta p { opacity: 0.95; max-width: 480px; margin: 0 auto 1.75rem; }
     .sakura-cta .btn-sakura-outline {
         background: white;
-        color: var(--sky-600) !important;
+        color: var(--pink-600) !important;
         border: none;
     }
 </style>
